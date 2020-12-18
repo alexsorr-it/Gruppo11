@@ -320,6 +320,8 @@ class TreeMap(LinkedBinaryTree, MapBase):
     lista1 = []
     lista2 = []
     it = self.__iter__()
+    #quindi aggiungo alle due liste i valori minori e maggiori della radice cosi da rispettare
+    #il funzionamento a V che vogliamo
     for i in it:
       if i < x.key():
         lista1.append((i, self.__getitem__(i)))
@@ -329,6 +331,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
     chiave_radice = x.key()
     valore_radice = x.value()
     self.clear()
+    #incrementando count faccio si che la rebalance non la faccio due volte
     self._count1 += 1
     self.__setitem2__(chiave_radice, valore_radice)
     tree1 = TreeMap()
