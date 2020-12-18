@@ -4,47 +4,50 @@ from Esercizio2Intracorso.Currency import Currency
 #----------FUNCTIONS---------#
 listaSorted = SortedTableMap()  # contiene (AFN,ALL,AOA,EUR,USD,...) solo quelli compresi tra c1 e c2
 def cover(tree, k, c1, c2):
-    s1 = tree.searchSorted(c1)
-    for i in s1:
-        listaSorted.__setitem__(i, s1.find_min()[0])   # il valore è la chiave del nodo cui l'elemento appartiene
-
-    s2 = tree.searchSorted(c2)
-    if s1 != s2:
-        for i in s2:
-            listaSorted.__setitem__(i, s2.find_min()[0])
+    if c1 > c2:
+        return "c2 must be greater than c1"
+    listaSorted = tree.greatSearch(c1,c2)
+    # s1 = tree.searchSorted(c1)
+    # for i in s1:
+    #     listaSorted.__setitem__(i, s1.find_min()[0])   # il valore è la chiave del nodo cui l'elemento appartiene
+    #
+    # s2 = tree.searchSorted(c2)
+    # if s1 != s2:
+    #     for i in s2:
+    #         listaSorted.__setitem__(i, s2.find_min()[0])
 
     # adesso in listaSorted ho tutti gli elementi compresi tra c1 e c2 e anche eventuali altri elementi che appartenevano ai nodi
     # cui c1 e c2 facevano parte.
     # Elimino i valori non compresi tra c1 e c2.
 
+    listaChiaviDaCancellare = []
     for i in listaSorted:
         if i < c1 or i > c2:
-            listaSorted.__delitem__(i)
+            listaChiaviDaCancellare.append(i)
+    for count in listaChiaviDaCancellare:
+        listaSorted.__delitem__(count)
 
     # Adesso in listSorted ho tutti gli elementi che ho interesse ad analizzare.
-
     # Creo una SortedTableMap che conterrà come chiavi le chiavi dell'albero e come valori il numero di elementi che quel nodo
-    # con possiede compresi tra c1 e c2
+    # possiede compresi tra c1 e c2
 
     sortedCount = SortedTableMap()
     giaInseriti = []
     for i in listaSorted:
         count = 0
         for j in listaSorted:
-            x = tree.searchSorted(j)
-            y = tree.searchSorted(i)
             if j >= i:
-                if y.find_min()[0] == x.find_min()[0] and j not in giaInseriti:   # identità sulle chiavi
+                if listaSorted.__getitem__(i) == listaSorted.__getitem__(j) and j not in giaInseriti:  # identità sulle chiavi
                     count += 1
                     giaInseriti.append(j)
-                    sortedCount.__setitem__(y.find_min()[0], count)
+                    sortedCount.__setitem__(listaSorted.__getitem__(i), count)
 
-    # Ora ho sortedCount che contiene le chiavi e il numero di valori compresi tra c1 e c2 che rientrano nel nodo in questione
+    # Ora ho sortedCount che contiene le chiavi e il numero di valori compresi tra c1 e c2 che rientrano nel nodo in questione.
     # Faccio una scelta Greedy fino a quando non copro k elementi. Se k non lo raggiungo neppure con tutti gli elementi compresi
     # tra c1 e c2, restituisco None
 
     num_nodi = 0
-    while k != 0:
+    while k > 0:
         num_nodi += 1  # aggiorno il numero di nodi necessari
         max = getMax(sortedCount)
         k = k - max
@@ -151,7 +154,7 @@ def inizializing():
 
 #----PRINTING RESULTS-----#
 inizializing()
-n = cover(albero, 4, "AFN", "AOA")
+n = cover(albero, 10, "ARS", "CLP")
 albero.stampa()
 
 #----PRINTING KEYS----#

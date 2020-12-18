@@ -192,6 +192,7 @@ class abTree():
         self._Mappa = SortedTableMap()
         self._Albero = TM()
         self._dictionary = {}
+        self._greatSorted = SortedTableMap()   # utile nella ricerca di tutte le entry che rispettano il vincolo ">=c1 e <=c2", Esercizio1Finale
 
     def reset_key(self, p, k):
         mappa = SortedTableMap()
@@ -333,6 +334,7 @@ class abTree():
         else:
             return None
 
+    # Esercizio1Finale
     def searchSorted(self, k):
         if self._Albero.is_empty():
             return None
@@ -341,6 +343,7 @@ class abTree():
             p = self._Albero.parent(p)
         return self.searchSorted2(k, p.value())
 
+    # Esercizio1Finale
     def searchSorted2(self, k, sorted):
         tupla = sorted.find_ge(k)
         if tupla is not None:
@@ -354,6 +357,40 @@ class abTree():
                     return None
         else:
             return None
+
+    # Esercizio1Finale
+    def greatSearch(self, c1, c2):
+        if self._Albero.is_empty():
+            return None
+        p1 = self._Albero.find_position(c1)
+        p2 = self._Albero.find_position(c2)
+        if (c1 > p1.value().find_max()[0] and not self._Albero.is_leaf(p1) or (c1 < p1.key() and self._Albero.parent(p1).key() < p1.key())) and (c2 > p2.value().find_max()[0] and not self._Albero.is_leaf(p2) or (c2 < p2.key() and self._Albero.parent(p2).key() < p2.key())):
+            p1 = self._Albero.parent(p1)
+            p2 = self._Albero.parent(p2)
+        return self.greatSearch2(p1.key(), p2.key())
+
+    # Esercizio1Finale
+    def greatSearch2(self, k1, k2):
+        it = self._Albero.__iter__()
+        for i in it:    # itero sull'albero
+            if i >= k1 and i <= k2:
+                sorted1 = self._Albero.__getitem__(i)
+                it1 = sorted1.__iter__()
+                for j in it1:    # itero sulla sorted di ogni nodo
+                    if sorted1.__getson__(j).__len__() > 0:
+                        self.greatSearch3(sorted1.__getson__(j))
+                    else:
+                        self._greatSorted.__setitem__(j, sorted1.find_min()[0])
+        return self._greatSorted
+
+    # Esercizio1Finale
+    def greatSearch3(self, sortedFiglio):
+        it = sortedFiglio.__iter__()
+        for i in it:
+            if sortedFiglio.__getson__(i).__len__() > 0:
+                self.greatSearch3(sortedFiglio.__getson__(i))
+            else:
+                self._greatSorted.__setitem__(i, sortedFiglio.find_min()[0])
 
     def delete(self, k):
         if self._Albero.is_empty():
