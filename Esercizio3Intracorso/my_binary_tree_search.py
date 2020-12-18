@@ -334,6 +334,8 @@ class TreeMap(LinkedBinaryTree, MapBase):
     tree1 = TreeMap()
     tree2 = TreeMap()
     for i in range(0, len(lista1)):
+      #adesso mi creo i miei due alberi che in realtà sono delle liste poichè gli elementi
+      #delle due liste sono già ordinati (sono stati ordinati sopra)
       tree1.__setitem__(lista1[i][0], lista1[i][1])
     for i in range(0, len(lista2)):
       tree2.__setitem__(lista2[i][0], lista2[i][1])
