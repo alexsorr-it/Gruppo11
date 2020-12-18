@@ -2,19 +2,10 @@ from Esercizio3Intracorso.due_otto_tree import abTree as abt, SortedTableMap
 from Esercizio2Intracorso.Currency import Currency
 
 #----------FUNCTIONS---------#
-listaSorted = SortedTableMap()  # contiene (AFN,ALL,AOA,EUR,USD,...) solo quelli compresi tra c1 e c2
 def cover(tree, k, c1, c2):
     if c1 > c2:
         return "c2 must be greater than c1"
     listaSorted = tree.greatSearch(c1,c2)
-    # s1 = tree.searchSorted(c1)
-    # for i in s1:
-    #     listaSorted.__setitem__(i, s1.find_min()[0])   # il valore è la chiave del nodo cui l'elemento appartiene
-    #
-    # s2 = tree.searchSorted(c2)
-    # if s1 != s2:
-    #     for i in s2:
-    #         listaSorted.__setitem__(i, s2.find_min()[0])
 
     # adesso in listaSorted ho tutti gli elementi compresi tra c1 e c2 e anche eventuali altri elementi che appartenevano ai nodi
     # cui c1 e c2 facevano parte.
@@ -161,11 +152,6 @@ albero.stampa()
 lista = albero.getKeys()
 print("\n\nCHIAVI:\n")
 for i in lista:
-    print(i)
-
-#----PRINTING COVER FUNCTION----#
-print("\n\nLISTE:")
-for i in listaSorted:
     print(i)
 
 print("\n\n(k, c1, c2)-cover of T with the minimum number of nodes: ", n)

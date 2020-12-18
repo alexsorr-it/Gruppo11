@@ -334,31 +334,7 @@ class abTree():
         else:
             return None
 
-    # Esercizio1Finale
-    def searchSorted(self, k):
-        if self._Albero.is_empty():
-            return None
-        p = self._Albero.find_position(k)
-        if (k > p.value().find_max()[0] and not self._Albero.is_leaf(p) or (k < p.key() and self._Albero.parent(p).key() < p.key())):
-            p = self._Albero.parent(p)
-        return self.searchSorted2(k, p.value())
-
-    # Esercizio1Finale
-    def searchSorted2(self, k, sorted):
-        tupla = sorted.find_ge(k)
-        if tupla is not None:
-            k_pot, v_pot = tupla[0], tupla[1]
-            if k_pot == k:
-                return sorted
-            elif k_pot > k:
-                if sorted.__getson__(k_pot).__len__() > 0:
-                    return self.search2(k, sorted.__getson__(k_pot))
-                else:
-                    return None
-        else:
-            return None
-
-    # Esercizio1Finale
+    # Esercizio1Finale - Cerco i nodi cui appartengono c1 e c2
     def greatSearch(self, c1, c2):
         if self._Albero.is_empty():
             return None
@@ -369,7 +345,7 @@ class abTree():
             p2 = self._Albero.parent(p2)
         return self.greatSearch2(p1.key(), p2.key())
 
-    # Esercizio1Finale
+    # Esercizio1Finale - Itero sui nodi dell'albero
     def greatSearch2(self, k1, k2):
         it = self._Albero.__iter__()
         for i in it:    # itero sull'albero
@@ -383,7 +359,7 @@ class abTree():
                         self._greatSorted.__setitem__(j, sorted1.find_min()[0])
         return self._greatSorted
 
-    # Esercizio1Finale
+    # Esercizio1Finale - Itero sulle SortedTableMap (riferimenti)
     def greatSearch3(self, sortedFiglio):
         it = sortedFiglio.__iter__()
         for i in it:
