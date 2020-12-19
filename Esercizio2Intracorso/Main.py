@@ -12,10 +12,10 @@ curr.AddDenomination(7)
 curr.AddDenomination(4)
 
 #---------ADD DENOMINATION PRINT--------#
-# curr.toStringDenomination()
-# print("\n\n")
-#
-#---------DELETE DENOMINATION-------#
+curr.toStringDenomination()
+print("\n\n")
+
+# #---------DELETE DENOMINATION-------#
 # curr.toStringDenomination()
 # curr.DelDenomination(3)
 # curr.DelDenomination(4)
@@ -41,8 +41,8 @@ curr.AddDenomination(4)
 # curr.clearDenominations()
 # print("\nDenomination after clear:")
 # curr.toStringDenomination()
-
-#--------ITER DENOMINATION----------#
+#
+# #--------ITER DENOMINATION----------#
 # print("\nNormal iteration:")
 # iteratore = curr.iterDenominations(False)
 # for i in iteratore:
@@ -51,25 +51,25 @@ curr.AddDenomination(4)
 # iteratore = curr.iterDenominations(True)
 # for i in iteratore:
 #     print("Key: ", i, ";    Value: ", curr._Denomination.__getitem__(i))
-
-#--------------CHANGES--------------#
-curr.addChange("DOL", 9.0)
-curr.addChange("LOD", 3.0)
-curr.addChange("OLD", 7.0)
+#
+# #--------------CHANGES--------------#
+# curr.addChange("DOL", 9.0)
+# curr.addChange("LOD", 3.0)
+# curr.addChange("OLD", 7.0)
 # curr.toStringChanges()
-
-#--------REMOVE CHANGES----------#
+#
+# #--------REMOVE CHANGES----------#
 # print("\n\n")
 # curr.removeChange("LOD")
 # print("\n\nAfter delete:")
 # curr.toStringChanges()
-
-#--------CHECK UPDATE CHANGES----------#
+#
+# #--------CHECK UPDATE CHANGES----------#
 # curr.updateChange("OLD", 12.0)
 # print("\n\nAfter update:")
 # curr.toStringChanges()
-
-#--------CHECK COPY AND DEEPCOPY DENOMINATION----------#
+#
+# #--------CHECK COPY AND DEEPCOPY DENOMINATION----------#
 # curr2 = curr.copy()
 # print("\nCURRENCY INIZIALE:")
 # curr.toString()
@@ -86,8 +86,8 @@ curr.addChange("OLD", 7.0)
 # curr3.toString()
 # print("\n\nCURRENCY POST DEEPCOPY:")
 # curr.toString()
-
-#--------CHECK COLOUR NODE----------#
+#
+# #--------CHECK COLOUR NODE----------#
 # generator = curr._Denomination.__iter__()
 # for i in generator:
 #     print("Key: ", i, ";    Value: ", curr._Denomination.__getitem__(i))

@@ -1,7 +1,24 @@
 from Esercizio3Intracorso.due_otto_tree import abTree as abt, SortedTableMap
 from Esercizio2Intracorso.Currency import Currency
 
-#----------FUNCTIONS---------#
+# complessità algoritmo: O(n^2), raggiunta nel while che comincia a riga 42 e richiama una funzione che esegue un ciclo for.
+# Nel caso peggiore, il while e il for scorrono tutta la SortedTableMap contenente come chiavi, le chiavi dei nodi e come valori,
+# il numero di valori compresi tra c1 e c2 che ciascun nodo dell'albero possiede.
+
+# La soluzione Greedy in questo caso è sempre ottimale perché mi consente di prendere il minor numero di nodi che coprono
+# (k,c1,c2). Non potrebbe esistere una situazione in cui si potrebbe trarre vantaggio non scegliendo l'ottimo locale.
+# Esempio per assurdo:
+#     Nodo 1 -> 10 valori compresi tra c1 e c2
+#     Nodo 2 -> 2 valori compresi tra c1 e c2
+#     Nodo 3 -> 1 valore compreso tra c1 e c2
+# Per k=1, Greedy trova la soluzione nel Nodo 3 e restituisce 1 come numero di nodi -> ottimo globale.
+# Per k=2, Greedy trova la soluzione nel Nodo 2 e  restituisce 1 come numero di nodi -> ottimo globale.
+# Per k>2 e k<11, Greedy trova la soluzione nel Nodo 1 e  restituisce 1 come numero di nodi -> ottimo globale.
+# Per k=11, Greedy trova la soluzione nel Nodo 1 e nel Nodo 3 e  restituisce 2 come numero di nodi -> ottimo globale.
+# Per k=12, Greedy trova la soluzione nel Nodo 1 e nel Nodo 2 e  restituisce 2 come numero di nodi -> ottimo globale.
+# Per k=13, Greedy trova la soluzione nel Nodo 1, nel Nodo 2 e nel Nodo 3 e  restituisce 3 come numero di nodi -> ottimo globale.
+# Per k>13, viene restituito None in quanto non esistono >13 compresi tra c1 e c2 nell'esempio considerato.
+
 def cover(tree, k, c1, c2):
     if c1 > c2:
         return "c2 must be greater than c1"
@@ -62,8 +79,8 @@ def getMax(sortedCount):
 #----------ABTREE INITIALIZATION-----------#
 albero = abt()
 
+#----------CURRENCY INITIALIZATION AND TREE FILLING-----------#
 def inizializing():
-    #----------CURRENCY INITIALIZATION-----------#
     curr1 = Currency("AFN")
     curr2 = Currency("ALL")
     curr3 = Currency("AMD")
