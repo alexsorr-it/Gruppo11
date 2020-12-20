@@ -39,8 +39,6 @@ def dynamic(curr, r):
 
 
 
-
-
 # ----------CURRENCY INITIALIZATION-----------#
 curr = Currency("EUR")
 
