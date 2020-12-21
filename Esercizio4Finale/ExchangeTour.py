@@ -53,9 +53,12 @@ grafo.insert_edge(v3, v4, x=0.05)
 
 listCurrency = {}
 exchangeTour = []
+start_vertex = v2
 score = 0
 
-DFS_exchangeTour(grafo, v1, v1, listCurrency, exchangeTour, score, 0)
+DFS_exchangeTour(grafo, start_vertex, start_vertex, listCurrency, exchangeTour, score, 0)
+
+exchangeTour.append(start_vertex)
 
 print('EXCHANGE TOUR')
 for curr in exchangeTour:
