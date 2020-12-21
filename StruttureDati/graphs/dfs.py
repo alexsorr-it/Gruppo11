@@ -32,6 +32,64 @@ def DFS(g, u, discovered):
       discovered[v] = e            # e is the tree edge that discovered v
       DFS(g, v, discovered)        # recursively explore from v
 
+
+#metodo definito ad hoc per la risoluzione dell'esercizio 4
+def DFS_exchangeTour(g, startVertex, u, discovered, exchangeTour, score, countVertex):
+  """Perform DFS of the undiscovered portion of Graph g starting at Vertex u.
+
+  discovered is a dictionary mapping each vertex to the edge that was used to
+  discover it during the DFS. (u should be "discovered" prior to the call.)
+  Newly discovered vertices will be added to the dictionary as a result.
+  """
+  discovered[u] = None
+
+  #mi inserisco nella lista il primo elemento, questo codice lo faccio
+  #solo alla prima esecuzione, quando il contatore che mi tiene traccia dei
+  #vertici è posto a 0 (0 = primo vertice visitato)
+  if countVertex == 0:
+    exchangeTour.append(startVertex)
+
+  for e in g.incident_edges(u):    # for every outgoing edge from u
+    #function check edge with minimum weight
+    v = e.opposite(u)
+
+    # quindi il peso dell'arco che mi porta a quell'arco
+    if v.element() == startVertex.element() and countVertex == g.vertex_count() - 1:
+      score += e.element()
+      print('GOAL ', score)
+      print("LAST vertex choose " + v.element() + " opposite to " + u.element() + " iteration: " + str(countVertex))
+      #aggiungo alla lista anche l'ultimo elemento ceh chiude il ciclo
+      exchangeTour.append(v)
+      print('pippo')
+      break
+    #se l'ultimo vertice che seleziono non è il vertice di partenza ma ho comunque
+    #visitato tutti i vertici (countVertex == g.vertex_count() - 1) allora lo aggiungo io
+    #tanto successivamente la funzione che mi verifica la correttezza del exchange tour mi rileverà
+    #che non è presente un collegamento diretto tra le due currency e quindi mi darà 'exchange tour errato'
+    if countVertex == g.vertex_count() - 1:
+
+      #se non entro nell'if, cioè se non ho un collegamento diretto tra l'ultimo vertice selezionato
+      #e il vertice di partenza, mi aggiungo forzatamente il vertice iniziale alla lista e successivamnete
+      #siccome non esiste un collegamento diretto tra i due vertici sarpò che non è un corretto Exchange tour
+      exchangeTour.append(startVertex)
+      print('paperino')
+      break
+
+
+    if v not in discovered:        # v is an unvisited vertex
+      countVertex += 1
+      #per chiudere il ciclo (tour) devo considerare anche il vertice di partenza
+      discovered[v] = e            # e is the tree edge that discovered v
+      exchangeTour.append(v)
+      score += e.element()
+      print('GOAL ', score)
+      print("vertex choose " + v.element() + " opposite to " + u.element() + " iteration: " + str(countVertex))
+      DFS_exchangeTour(g, startVertex, v, discovered, exchangeTour, score, countVertex)        # recursively explore from v
+
+
+
+
+
 def construct_path(u, v, discovered):
   """
   Return a list of vertices comprising the directed path from u to v,

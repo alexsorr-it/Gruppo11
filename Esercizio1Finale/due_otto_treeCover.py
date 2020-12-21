@@ -22,6 +22,9 @@ from Esercizio2Intracorso.Currency import Currency
 def cover(tree, k, c1, c2):
     if c1 > c2:
         return "c2 must be greater than c1"
+
+    #il metodo greatSearch presi in input due valori, mi restituisce tutti i nodi appartenenti
+    #all'albero compresi tra questi due estremi.
     listaSorted = tree.greatSearch(c1,c2)
 
     # adesso in listaSorted ho tutti gli elementi compresi tra c1 e c2 e anche eventuali altri elementi che appartenevano ai nodi
@@ -36,15 +39,17 @@ def cover(tree, k, c1, c2):
         listaSorted.__delitem__(count)
 
     # Adesso in listSorted ho tutti gli elementi che ho interesse ad analizzare.
-    # Creo una SortedTableMap che conterrà come chiavi le chiavi dell'albero e come valori il numero di elementi che quel nodo
-    # possiede compresi tra c1 e c2
+    # Creo una SortedTableMap che conterrà come chiavi le chiavi dell'albero e come valore un contatore.
+    # Questo contatore indica quanti elementi quel nodo possiede che sono compresi tra c1 e c2,
 
     sortedCount = SortedTableMap()
     giaInseriti = []
     for i in listaSorted:
+        #per ogni elemento ovviamente azzero il contatore
         count = 0
         for j in listaSorted:
             if j >= i:
+                # listaSorted.__getitem__(i) restituisce la chiave del nodo, cioè il min della sorted (?)
                 if listaSorted.__getitem__(i) == listaSorted.__getitem__(j) and j not in giaInseriti:  # identità sulle chiavi
                     count += 1
                     giaInseriti.append(j)

@@ -14,6 +14,9 @@ class Currency():
         self._Denomination = RB()
         self._Changes = DHH()
 
+    def getCode(self):
+        return self._Code
+
     def AddDenomination(self,value):
         """Complexity -> O(log(n)) ; O(1) if tree consists only of the root node"""
         if (isinstance(value,float) or isinstance(value,int)) and value > 0.0:
