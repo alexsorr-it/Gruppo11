@@ -53,24 +53,27 @@ grafo.insert_edge(v3, v4, x=0.05)
 
 listCurrency = {}
 exchangeTour = []
-start_vertex = v1
-score = 0
 
-score = DFS_exchangeTour(grafo, start_vertex, start_vertex, listCurrency, exchangeTour, score, 0)
+def printTour(start_vertex, score):
+    score = DFS_exchangeTour(grafo, start_vertex, start_vertex, listCurrency, exchangeTour, score, 0)
+    exchangeTour.append(start_vertex)
 
-exchangeTour.append(start_vertex)
+    print('EXCHANGE TOUR')
+    stampa = "("
+    for curr in exchangeTour:
+        stampa += str(curr) + " , "
+    print(stampa + ")")
 
-print('EXCHANGE TOUR')
-for curr in exchangeTour:
-    print(curr)
+    isValid = True
+    for i in range(0, len(exchangeTour) - 1):   # i va da 0 a 4
+        if not grafo.get_edge(exchangeTour[i], exchangeTour[i+1]):
+            print('exchange tour is not valid')
+            isValid = False
 
-isValid = True
-for i in range(0, len(exchangeTour) - 1):   # i va da 0 a 4
-    if not grafo.get_edge(exchangeTour[i], exchangeTour[i+1]):
-        print('exchange tour is not valid')
-        isValid = False
+    if(isValid):
+        print('exchange tour is valid with score ', score)
 
-if(isValid):
-    print('exchange tour is valid with score ', score)
+    #quando mettiamo come vertice iniziale v4 ci troviamo nel secondo caso di errore del problema
 
-#quando mettiamo come vertice iniziale v4 ci troviamo nel secondo caso di errore del problema
+
+printTour(v1, 0)
