@@ -56,7 +56,7 @@ exchangeTour = []
 start_vertex = v2
 score = 0
 
-DFS_exchangeTour(grafo, start_vertex, start_vertex, listCurrency, exchangeTour, score, 0)
+score = DFS_exchangeTour(grafo, start_vertex, start_vertex, listCurrency, exchangeTour, score, 0)
 
 exchangeTour.append(start_vertex)
 
