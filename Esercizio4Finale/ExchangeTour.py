@@ -54,26 +54,49 @@ grafo.insert_edge(v3, v4, x=0.05)
 listCurrency = {}
 exchangeTour = []
 
-def printTour(start_vertex, score):
-    score = DFS_exchangeTour(grafo, start_vertex, start_vertex, listCurrency, exchangeTour, score, 0)
-    exchangeTour.append(start_vertex)
+def printTour(exchangeTour):
+    """
+    Print all the currency in the exchange tour.
 
+    :param exchangeTour: a list containing all the currency choosen by DFS algorithm
+    """
     print('EXCHANGE TOUR')
     stampa = "("
     for curr in exchangeTour:
         stampa += str(curr) + " , "
     print(stampa + ")")
 
-    isValid = True
+def checkValidTour(exchangeTour):
+    """
+    Check if the list passed as parameters is a valid eschange tour, so if respect the following constraints:
+
+    - All currency must be involved in the tour
+    - Currencies must be involved only one time
+    - Consecutive Currencies must be related by a rate exchange
+
+    :param exchangeTour: a list containing all the currency choosen by DFS algorithm
+    """
     for i in range(0, len(exchangeTour) - 1):   # i va da 0 a 4
         if not grafo.get_edge(exchangeTour[i], exchangeTour[i+1]):
-            print('exchange tour is not valid')
-            isValid = False
+            return False
+    return True
 
+def makeTour(start_vertex, score):
+    """
+    Define the exchange tour starting from a vertex which is in a graph.
+
+    :param start_vertex: vertex of the graph from which we want to start DFS algorithm
+    :param score: initial score (may be 0)
+    :return: score of the exchange tour
+    """
+    score = DFS_exchangeTour(grafo, start_vertex, start_vertex, listCurrency, exchangeTour, score, 0)
+    exchangeTour.append(start_vertex)
+    printTour(exchangeTour)
+    isValid = checkValidTour(exchangeTour)
     if(isValid):
         print('exchange tour is valid with score ', score)
+    else:
+        print('exchange tour is not valid')
 
-    #quando mettiamo come vertice iniziale v4 ci troviamo nel secondo caso di errore del problema
 
-
-printTour(v1, 0)
+makeTour(v4, 0)

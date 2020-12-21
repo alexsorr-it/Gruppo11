@@ -62,6 +62,8 @@ def DFS_exchangeTour(g, startVertex, u, discovered, exchangeTour, score, countVe
       print("LAST vertex choose " + v.element() + " opposite to " + u.element() + " iteration: " + str(countVertex))
       return score
     if countVertex == g.vertex_count() - 1:
+      score += e.element()
+      print('GOAL ', score)
       return score
 
     if v not in discovered:        # v is an unvisited vertex
@@ -72,7 +74,7 @@ def DFS_exchangeTour(g, startVertex, u, discovered, exchangeTour, score, countVe
       score += e.element()
       print('GOAL ', score)
       print("vertex choose " + v.element() + " opposite to " + u.element() + " iteration: " + str(countVertex))
-      return DFS_exchangeTour(g, startVertex, v, discovered, exchangeTour, score, countVertex)        # recursively explore from v
+      DFS_exchangeTour(g, startVertex, v, discovered, exchangeTour, score, countVertex)        # recursively explore from v
 
 
 def construct_path(u, v, discovered):
