@@ -34,7 +34,7 @@ print(curr4.toStringChanges())
 print("CURR5: ")
 print(curr5.toStringChanges())
 
-grafo = Graph()
+grafo = Graph(False)
 
 v1 = grafo.insert_vertex(curr1.getCode())
 v2 = grafo.insert_vertex(curr2.getCode())

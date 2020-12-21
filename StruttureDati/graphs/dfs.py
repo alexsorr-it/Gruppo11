@@ -42,6 +42,7 @@ def DFS_exchangeTour(g, startVertex, u, discovered, exchangeTour, score, countVe
   Newly discovered vertices will be added to the dictionary as a result.
   """
   discovered[u] = None
+  oneTimeExcecution = None
 
   #mi inserisco nella lista il primo elemento, questo codice lo faccio
   #solo alla prima esecuzione, quando il contatore che mi tiene traccia dei
@@ -60,18 +61,20 @@ def DFS_exchangeTour(g, startVertex, u, discovered, exchangeTour, score, countVe
       print("LAST vertex choose " + v.element() + " opposite to " + u.element() + " iteration: " + str(countVertex))
       #aggiungo alla lista anche l'ultimo elemento ceh chiude il ciclo
       exchangeTour.append(v)
+      oneTimeExcecution = 1
+      print('is valid ', oneTimeExcecution)
       print('pippo')
       break
     #se l'ultimo vertice che seleziono non è il vertice di partenza ma ho comunque
     #visitato tutti i vertici (countVertex == g.vertex_count() - 1) allora lo aggiungo io
     #tanto successivamente la funzione che mi verifica la correttezza del exchange tour mi rileverà
     #che non è presente un collegamento diretto tra le due currency e quindi mi darà 'exchange tour errato'
-    if countVertex == g.vertex_count() - 1:
-
+    elif countVertex == g.vertex_count() - 1 and oneTimeExcecution == 0:
       #se non entro nell'if, cioè se non ho un collegamento diretto tra l'ultimo vertice selezionato
       #e il vertice di partenza, mi aggiungo forzatamente il vertice iniziale alla lista e successivamnete
       #siccome non esiste un collegamento diretto tra i due vertici sarpò che non è un corretto Exchange tour
       exchangeTour.append(startVertex)
+      print('is valid ', oneTimeExcecution)
       print('paperino')
       break
 
@@ -85,9 +88,6 @@ def DFS_exchangeTour(g, startVertex, u, discovered, exchangeTour, score, countVe
       print('GOAL ', score)
       print("vertex choose " + v.element() + " opposite to " + u.element() + " iteration: " + str(countVertex))
       DFS_exchangeTour(g, startVertex, v, discovered, exchangeTour, score, countVertex)        # recursively explore from v
-
-
-
 
 
 def construct_path(u, v, discovered):
