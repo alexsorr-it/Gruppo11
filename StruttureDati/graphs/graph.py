@@ -25,11 +25,18 @@ class Graph:
   #------------------------- nested Vertex class -------------------------
   class Vertex:
     """Lightweight vertex structure for a graph."""
-    __slots__ = '_element'
+    __slots__ = '_element', '_label'
 
-    def __init__(self, x):
+    def __init__(self, x, label="UNEXPLORED"):
       """Do not call constructor directly. Use Graph's insert_vertex(x)."""
       self._element = x
+      self._label = label
+
+    def getLabel(self):
+      return self._label
+
+    def setLabel(self, label):
+      self._label = label
 
     def element(self):
       """Return element associated with this vertex."""
@@ -44,13 +51,20 @@ class Graph:
   #------------------------- nested Edge class -------------------------
   class Edge:
     """Lightweight edge structure for a graph."""
-    __slots__ = '_origin', '_destination', '_element'
+    __slots__ = '_origin', '_destination', '_element', '_label'
 
-    def __init__(self, u, v, x):
+    def __init__(self, u, v, x, label="UNEXPLORED"):
       """Do not call constructor directly. Use Graph's insert_edge(u,v,x)."""
       self._origin = u
       self._destination = v
       self._element = x
+      self._label = label
+
+    def getLabel(self):
+      return self._label
+
+    def setLabel(self, label):
+      self._label = label
 
     def endpoints(self):
       """Return (u,v) tuple for vertices u and v."""

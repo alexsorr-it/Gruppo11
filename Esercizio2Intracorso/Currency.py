@@ -96,19 +96,16 @@ class Currency():
             Average Case = O(1/(1-λ)) ; 0<λ≤0.5
             Worst Case = O(n)
         """
-        check_float = isinstance(change, float)
-        if check_float and change > 0.0:
-            h = self._Changes._hash_function(currencycode)
-            found,x = self._Changes._find_slot(h,currencycode,False)
-            if found:
-                raise KeyError('Currency Error: ' + repr(currencycode))     #key already exists
-            else:
-                if currencycode != self._Code:
-                    self._Changes.__setitem__(currencycode,change)
-                else:
-                    raise KeyError('Currency Error: ' + repr(currencycode))     #can't insert a currency equals to _Code
+        change = float(change)
+        h = self._Changes._hash_function(currencycode)
+        found,x = self._Changes._find_slot(h,currencycode,False)
+        if found:
+            raise KeyError('Currency Error: ' + repr(currencycode))     #key already exists
         else:
-            raise KeyError('Currency Error: ' + repr(change))  # change must be float
+            if currencycode != self._Code:
+                self._Changes.__setitem__(currencycode,change)
+            else:
+                raise KeyError('Currency Error: ' + repr(currencycode))     #can't insert a currency equals to _Code
 
     def removeChange(self, currencycode):
         """
