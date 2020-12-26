@@ -1,28 +1,31 @@
-from Esercizio2Intracorso.Currency import Currency
-import decimal
-
-# r = amount
-# curr.numDenominations()
 def differentWays(curr, r):
-    d = decimal.Decimal(str(r))
-    var = d.as_tuple().exponent
-    if var < -2:
-        return "value with over two decimal points are not allowed"
+    """
+    :param curr: currency object
+    :param r: amount to achieve using denominations of currency object
+    :return: tuple containing, as first parameter, the number of different ways that value r can be achieved by using
+             denominations of the given currency; as second parameter, the list of different changes of the value r that
+             can be achieved by using denominations of the given currency
+    """
 
-    r = int(r * 100)
+    # According to what was communicated, we have assumed that both denominations and r are integers (this is equivalent
+    # to saying that instead of having the quantity r and the denominations of a coin defined in units of the same, we
+    # have defined them in cents of the same). In other words, we can't have float values
+    if isinstance(r, float):
+        return "Please, insert only integer values as 'r'."
 
-    # initializing matrix 'a'
+    # Initializing matrix 'a'
     a = [[1] * (r+1) for _ in range(0, curr.numDenominations())]
 
+    # Appending denominations to list of coins
     it = curr.iterDenominations(False)
     coins = []
-    for k in it:
-        d = decimal.Decimal(str(k))
-        var = d.as_tuple().exponent
-        if var < -2:
-            return "value with over two decimal points are not allowed"
-        coins.append(int(k * 100))
+    for denomination in it:
+        if isinstance(denomination, float):
+            return "Please, insert only integer values as 'denominations'."
+        coins.append(denomination)
 
+    # Constructing matrix containing the number of different ways that value r can be achieved by using denominations
+    # of the given currency
     for i in range(0, curr.numDenominations()):
         for j in range(1,r+1):
             if i == 0:
@@ -35,83 +38,72 @@ def differentWays(curr, r):
             else:
                 a[i][j] = a[i-1][j] + a[i][j-coins[i]]
 
-    combinazioniTotali = []
-    combinazione = []
-    for i in range(curr.numDenominations() - 1, -1, -1):
-        numCombinazioni = a[i][r-coins[i]]
-        amount = r
-        riga = i
-        while numCombinazioni > 0:
-            amount = amount - coins[riga]
-            if amount >= 0:
-                if [coins[riga], amount] not in combinazione:
-                    combinazione.append([coins[riga], amount])
-                    if amount == 0:
-                        if combinazione not in combinazioniTotali:
-                            combinazioniTotali.append(combinazione)
-                            numCombinazioni -= numCombinazioni
-                            amount = r
-                            combinazione = []
+    # Constructing the list of different changes of the value r that can be achieved by using denominations of the
+    # given currency
+    totalCombinations = []
+    for i in range(0, curr.numDenominations()):
+        if coins[i] <= r:
+            numCombinations = a[i][r-coins[i]]
+            amount = r
+            row = i
+            combination = []
+            count = 0
+            cash = []
+            while numCombinations > 0:
+                amount = amount - coins[row]
+                combination.append(coins[row])
+                if amount == 0:
+                    if combination not in totalCombinations:
+                        totalCombinations.append(combination)
+                        numCombinations = numCombinations - 1
+                        combination = []
+                        amount = r
+                        row = i
+                        count = 0
+                    else:
+                        # removing the coins that are not part of the current row
+                        for c in range(len(combination)-1, 0, -1):
+                            if combination[c] != coins[i]:
+                                combination.pop(c)
+                        amount = r
+                        row = i
+                        # removing the coins that are part of the current row but for which an analysis has already been made
+                        if len(combination) > 1:
+                            combination.pop(len(combination) - 1)
                         else:
-                            combinazione[combinazione.__len__() - 1].pop(combinazione[combinazione.__len__() - 1].__len__() - 1)
-                            amount = amount + coins[riga]
-                            riga = riga - 1
-                else:
-                    if amount == 0:
-                        amount = amount + coins[riga]
-                    riga = riga - 1
-            else:
-                amount = amount + coins[riga]
-                riga = riga - 1
-
-    # [ [coins1, amount1], [coins2, amount2], ... ]  -> combinazione
-    # [  [[coins1, amount1], [coins2, amount2]], [[coins1, amount1], [coins2, amount2]], ...  ] -> combinazioniTotali
-    grandeStringa = ""
-    cEsterno = 0
-    for i in combinazioniTotali:
-        stringa = ""
-        c = 0
-        for j in i:
-            coin = j[0]
-            if c == 0:
-                stringa = "(" + str(coin)
-                c += 1
-            elif c == i.__len__() - 1:
-                stringa = stringa + ", " + str(coin) + ")"
-            else:
-                stringa = stringa + ", " + str(coin)
-        if cEsterno == 0:
-            grandeStringa = "combinazioni possibili: (" + stringa
-        elif cEsterno == combinazioniTotali.__len__() - 1:
-            grandeStringa = grandeStringa + ", " + stringa + ")"
+                            row = row - 1
+                        for am in range(0, len(combination)):
+                            amount = amount - combination[am]
+                        row = row - 1
+                elif amount < 0:
+                    if row - 1 < 0:
+                        # removing the coins that are not part of the current row
+                        for c in range(len(combination) - 1, 0, -1):
+                            if combination[c] != coins[i]:
+                                combination.pop(c)
+                        amount = r
+                        row = i
+                        # removing the coins that are part of the current row but for which an analysis has already been made
+                        if len(combination) > 1:
+                            combination.pop(len(combination) - 1)
+                        else:
+                            row = row - 1
+                        for am in range(0, len(combination)):
+                            amount = amount - combination[am]
+                        row = row - 1
+                    else:
+                        cash.append(coins[row])
+                        if cash[0] == cash[len(cash)-1]:
+                            count = count + 1
+                        else:
+                            count = 1
+                        for c in range(0, count):
+                            combination.pop(len(combination) - 1)
+                        amount = r
+                        for am in range(0, len(combination)):
+                            amount = amount - combination[am]
+                        row = row - 1
         else:
-            grandeStringa = grandeStringa + ", " + stringa
+            break
 
-    return (a, grandeStringa)
-
-
-
-
-
-# ----------CURRENCY INITIALIZATION-----------#
-curr = Currency("EUR")
-
-# ----------CURRENCY CONSTRUCTION OBJECT----------#
-curr.AddDenomination(0.02)
-curr.AddDenomination(0.03)
-curr.AddDenomination(0.05)
-curr.AddDenomination(0.1)
-
-r = 0.15
-
-tupla = differentWays(curr, r)
-a = tupla[0]
-gs = tupla[1]
-print("  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5]\n")
-appoggio = [2,3,5,1]
-j=0
-for i in a:
-    print(appoggio[j], i)
-    j+=1
-
-print("\n" + gs)
+    return a[-1][-1], totalCombinations
