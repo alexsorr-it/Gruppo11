@@ -15,7 +15,7 @@ currGBP.addChange("EUR", 0.005)
 currUSD.addChange("GBP", 0.004)
 
 C = [currUSD, currEUR, currGBP]   # we have supposed that the set of element containing Currency objects is a list
-s = currGBP
+s = currUSD
 
 #-------------TESTING ARBITRAGE OPPORTUNITY-----------#
 cycleAndRate = redfs.arbitrageOpportunity(C, s)
