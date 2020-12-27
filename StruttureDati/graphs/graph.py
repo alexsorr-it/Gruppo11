@@ -146,7 +146,7 @@ class Graph:
     for edge in adj[v].values():
       yield edge
 
-  def insert_vertex(self, x=None) -> object:
+  def insert_vertex(self, x=None):
     """Insert and return a new Vertex with element x."""
     v = self.Vertex(x)
     self._outgoing[v] = {}
