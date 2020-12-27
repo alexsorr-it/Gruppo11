@@ -27,8 +27,22 @@ def cover(tree, k, c1, c2):
     :return: num_nodes -> minimum number of nodes that contain k currencies between c1 and c2; it may return None if
             doesn't exists such a cover (k, c1, c2)
     """
+
+    if not isinstance(k, int):
+        return "k must be integer"
+
+    if not isinstance(c1, str) or not isinstance(c2, str) or not((c1.isupper() and (len(c1) == 3))
+                                                                 and (c2.isupper() and (len(c2) == 3))):
+        return "keys must be of three upper capital letter"
+
     if c1 > c2:
         return "c2 must be greater than c1"
+
+    # Checking if c1 and c2 are valid currency
+    v1 = tree.search(c1)
+    v2 = tree.search(c2)
+    if v1 is None or v2 is None:
+        return "c1 or c2 are not valid currencies because one or both of them are not part of the constructed tree"
 
     # Given the configuration adopted for the (2, 8)-Tree in the first test, it was necessary to create three new
     # methods: greatSearch(), greatSearch2(), greatSearch3(). These methods perform a search of all the SortedTableMaps

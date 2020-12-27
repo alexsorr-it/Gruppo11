@@ -1,4 +1,5 @@
 from StruttureDati.graphs.graph import Graph
+from Esercizio2Intracorso.Currency import Currency
 from math import exp
 
 
@@ -79,6 +80,14 @@ def arbitrageOpportunity(C, s):
     :return: tuple whose first element is a list of a cycle, and whose second element is the rate exchange obtained
              through cycle
     """
+
+    for curr in C:
+        if not isinstance(curr, Currency):
+            return "The set 'C' must contain only currency objects."
+
+    if not isinstance(s, Currency):
+        return "'s' must be a currency object."
+
     G = Graph(directed=True)
     v = None
 

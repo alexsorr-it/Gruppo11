@@ -15,12 +15,12 @@ r = 15
 
 tupla = cd.differentWays(curr, r)
 if isinstance(tupla, tuple):
-    a = tupla[0]
-    gs = tupla[1]
+    n = tupla[0]
+    totalCombinations = tupla[1]
 
-    print("Number of possible combinations:", a)
+    print("Number of possible combinations:", n)
     print("\n\nPossible combinations:")
-    for i in gs:
-        print(i)
+    for combination in totalCombinations:
+        print(combination)
 else:
     print(tupla)

@@ -87,6 +87,6 @@ albero.addElement(curr38._Code, 38)
 
 #----PRINTING RESULTS-----#
 n = dot.cover(albero, 10, "ARS", "CLP")
-print("Tree:\n")
-albero.stampa()
-print("\n\n(k, c1, c2)-cover of T with the minimum number of nodes: ", n)
+print("(k, c1, c2)-cover of T with the minimum number of nodes: ", n)
+# print("Tree:\n")
+# albero.stampa()

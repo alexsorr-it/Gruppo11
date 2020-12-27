@@ -1,3 +1,6 @@
+from Esercizio2Intracorso.Currency import Currency
+
+
 def differentWays(curr, r):
     """
     :param curr: currency object
@@ -10,8 +13,14 @@ def differentWays(curr, r):
     # According to what was communicated, we have assumed that both denominations and r are integers (this is equivalent
     # to saying that instead of having the quantity r and the denominations of a coin defined in units of the same, we
     # have defined them in cents of the same). In other words, we can't have float values
-    if isinstance(r, float):
+    if not isinstance(r, int):
         return "Please, insert only integer values as 'r'."
+
+    if not isinstance(curr, Currency):
+        return "Please, insert a Currency object as 'curr'."
+
+    if r < 0:
+        return "Please, insert only positive integer values as 'r'."
 
     # Initializing matrix 'a'
     a = [[1] * (r+1) for _ in range(0, curr.numDenominations())]
@@ -20,9 +29,12 @@ def differentWays(curr, r):
     it = curr.iterDenominations(False)
     coins = []
     for denomination in it:
-        if isinstance(denomination, float):
+        if not isinstance(denomination, int):
             return "Please, insert only integer values as 'denominations'."
         coins.append(denomination)
+
+    if r < coins[0]:
+        return 0, ""
 
     # Constructing matrix containing the number of different ways that value r can be achieved by using denominations
     # of the given currency
