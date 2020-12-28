@@ -4,7 +4,7 @@ from Esercizio2Intracorso.Currency import Currency
 
 def dfs(graph, start, end):
     """
-    :param graph:
+    :param graph: graph
     :param start: start vertex
     :param end: end vertex
     :return: all cycles involved in the graph
@@ -20,9 +20,8 @@ def dfs(graph, start, end):
                 continue
             margin.append((next_state, path+[next_state]))
 
-def constructingGraph(G):
+def adaptingGraph(G):
     """
-
     :param G: graph
     :return: all cycles that cover all vertex of the graph
     """
@@ -44,12 +43,16 @@ def constructingGraph(G):
 
     cycles = []
     for cycle in allCycles:
-        #adding only cycles which include all vertices of the graph
+        # adding only cycles which include all vertices of the graph
         if len(cycle) - 1 == len(G.vertices()):
             cycles.append(cycle)
     return cycles
 
-def callFirst(C):
+def constructingGraph(C):
+    """
+    :param C: set
+    :return:
+    """
     G = Graph(directed=False)
 
     for currency in C:
@@ -64,7 +67,7 @@ def callFirst(C):
             except KeyError:
                 pass
 
-    cycles = constructingGraph(G)
+    cycles = adaptingGraph(G)
     listSum = []
     listProvv = []
     for listCycle in cycles:
@@ -80,42 +83,44 @@ def callFirst(C):
 
     return listSum
 
-def localSearch(cyclesAndSum):
+def localSearch(C):
     """
     Local search Algorithm
     - We mantain the current solution S
     - We mantain the current best solution S*
     - We choose a solution S' in N(S)
     - We set S' as the new current solution
-    - If c(S') <= c(S*), we set S' as the current best solution
+    - If c(S') < c(S*), we set S' as the current best solution
     - Repeat
 
-    :param exchangeTour: a list containing all the currency choosen by DFS algorithm
-    :param count: Energy of the problem, such as the cost function to minimize
-    :return: Best configuration and its cost
+    :param C: set of Currency objects (supposed a list)
+    :return: tuple containing as first element the list of the cycle found and as second element the relative
+             rate exchange
     """
 
-    #currentBestSolution = []
-    #score = -1
-    print('\n\nLOCAL SEARCH')
-    #Neighbour-hood relation (two solution differ from each other by the start vertex choosen for the DFS algorithm)
-    # for cas in cyclesAndSum:
-    #     current_score = cas[1]
-    #     if current_score < score and current_score > 0 or score == -1:
-    #         score = current_score
-    #         currentBestSolution = cas[0]
+    for curr in C:
+        if not isinstance(curr, Currency):
+            return "The set 'C' must contain only currency objects."
+        it = curr._Changes.__iter__()
+        for i in it:
+            if curr._Changes.__getitem__(i) <= 0:
+                return "We have assumed that if the rate exchange r(c, c’) exists, then also r(c’, c) exists and" \
+                       " r(c, c’) = r(c’, c) > 0."
 
+    cyclesAndSum = constructingGraph(C)
+
+    if len(cyclesAndSum) == 0:
+        return "There is no valid exchange tour."
+
+    #Neighbour-hood relation (two solution differ from each other by the start vertex choosen for the DFS algorithm)
     score = cyclesAndSum[0][1]
     currentBestSolution = cyclesAndSum[0][0]
     index = 0
     while index < len(cyclesAndSum):
         current_score = cyclesAndSum[index][1]
-        if current_score < score and current_score > 0:
+        if current_score < score:
             score = current_score
             currentBestSolution = cyclesAndSum[index][0]
         index += 1
 
-    print('\nBEST SOLUTION ', currentBestSolution)
-    print('SCORE ', score)
-
-
+    return currentBestSolution, score
