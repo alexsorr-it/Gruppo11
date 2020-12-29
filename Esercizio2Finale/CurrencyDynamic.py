@@ -23,7 +23,9 @@ def differentWays(curr, r):
         return "Please, insert only positive integer values as 'r'."
 
     # Initializing matrix 'a'
-    a = [[1] * (r+1) for _ in range(0, curr.numDenominations())]
+    a = [[0] * (r+1) for _ in range(0, curr.numDenominations()+1)]
+    for _ in range(0, curr.numDenominations()+1):
+        a[_][0] = 1
 
     # Appending denominations to list of coins
     it = curr.iterDenominations(False)
@@ -38,84 +40,40 @@ def differentWays(curr, r):
 
     # Constructing matrix containing the number of different ways that value r can be achieved by using denominations
     # of the given currency
-    for i in range(0, curr.numDenominations()):
-        for j in range(1,r+1):
-            if i == 0:
+    for i in range(1, curr.numDenominations()+1):
+        for j in range(1, r+1):
+            if i == 1:
                 if j % coins[0] == 0:
-                    a[0][j] = 1
+                    a[1][j] = 1
                 else:
-                    a[0][j] = 0
-            elif coins[i] > j:
+                    a[1][j] = 0
+            elif coins[i-1] > j:
                 a[i][j] = a[i-1][j]
             else:
-                a[i][j] = a[i-1][j] + a[i][j-coins[i]]
+                a[i][j] = a[i-1][j] + a[i][j-coins[i-1]]
+    return a[-1][-1], differentCombination(coins, len(coins)-1, r, [], [], a)
 
-    # Constructing the list of different changes of the value r that can be achieved by using denominations of the
-    # given currency
-    totalCombinations = []
-    for i in range(0, curr.numDenominations()):
-        if coins[i] <= r:
-            numCombinations = a[i][r-coins[i]]
-            amount = r
-            row = i
-            combination = []
-            count = 0
-            cash = []
-            while numCombinations > 0:
-                amount = amount - coins[row]
-                combination.append(coins[row])
-                if amount == 0:
-                    if combination not in totalCombinations:
-                        totalCombinations.append(combination)
-                        numCombinations = numCombinations - 1
-                        combination = []
-                        amount = r
-                        row = i
-                        count = 0
-                    else:
-                        # removing the coins that are not part of the current row
-                        for c in range(len(combination)-1, 0, -1):
-                            if combination[c] != coins[i]:
-                                combination.pop(c)
-                        amount = r
-                        row = i
-                        # removing the coins that are part of the current row but for which an analysis has already been made
-                        if len(combination) > 1:
-                            combination.pop(len(combination) - 1)
-                        else:
-                            row = row - 1
-                        for am in range(0, len(combination)):
-                            amount = amount - combination[am]
-                        row = row - 1
-                elif amount < 0:
-                    if row - 1 < 0:
-                        # removing the coins that are not part of the current row
-                        for c in range(len(combination) - 1, 0, -1):
-                            if combination[c] != coins[i]:
-                                combination.pop(c)
-                        amount = r
-                        row = i
-                        # removing the coins that are part of the current row but for which an analysis has already been made
-                        if len(combination) > 1:
-                            combination.pop(len(combination) - 1)
-                        else:
-                            row = row - 1
-                        for am in range(0, len(combination)):
-                            amount = amount - combination[am]
-                        row = row - 1
-                    else:
-                        cash.append(coins[row])
-                        if cash[0] == cash[len(cash)-1]:
-                            count = count + 1
-                        else:
-                            count = 1
-                        for c in range(0, count):
-                            combination.pop(len(combination) - 1)
-                        amount = r
-                        for am in range(0, len(combination)):
-                            amount = amount - combination[am]
-                        row = row - 1
-        else:
-            break
+def differentCombination(coins, row, r, combination, totalCombinations, matrix):
+    """
+    :param coins: list of denominations
+    :param row: index of row in matrix
+    :param r: index of column in matrix
+    :param combination: list of single combination of denominations
+    :param totalCombinations: list of all combinations of denominations
+    :param matrix: matrix containing number of combinations
+    :return: list of total combinations
+    """
 
-    return a[-1][-1], totalCombinations
+    if row == 0 and r == 0:
+        if len(totalCombinations) < 1000:
+            totalCombinations.append(combination)
+        return
+
+    if matrix[row][r] >= 1:
+        differentCombination(coins, row - 1, r, combination[:], totalCombinations, matrix)
+
+    if r >= coins[row - 1] and matrix[row][r - coins[row - 1]] >= 1:
+        combination.append(coins[row - 1])
+        differentCombination(coins, row, r - coins[row - 1], combination, totalCombinations, matrix)
+
+    return totalCombinations

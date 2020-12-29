@@ -6,17 +6,11 @@ from Esercizio2Finale import CurrencyDynamic as cd
 curr = Currency("EUR")
 
 # ----------CURRENCY CONSTRUCTION OBJECT----------#
-#curr.AddDenomination(1)
+curr.AddDenomination(1)
 curr.AddDenomination(2)
-curr.AddDenomination(3)
-curr.AddDenomination(4)
 curr.AddDenomination(5)
-curr.AddDenomination(10)
-#curr.AddDenomination(13)
 
-
-
-r = 10
+r = 6
 
 tupla = cd.differentWays(curr, r)
 if isinstance(tupla, tuple):
@@ -25,7 +19,10 @@ if isinstance(tupla, tuple):
 
     print("Number of possible combinations:", n)
     print("\n\nPossible combinations:")
-    for combination in totalCombinations:
-        print(combination)
+    if isinstance(totalCombinations, list):
+        for combination in totalCombinations:
+            print(combination)
+    else:
+        print(totalCombinations)
 else:
     print(tupla)
