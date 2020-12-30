@@ -1,6 +1,6 @@
 from Esercizio3Intracorso.due_otto_tree import SortedTableMap
 
-# algorithm complexity: O (n^2), reached in the while starting on line 42 and calling a function that executes a for
+# Algorithm complexity: O (n^2), reached in the while starting on line 42 and calling a function that executes a for
 # loop. In the worst case, the while and for cycle through the SortedTableMap containing as keys, the keys of the nodes
 # and as values, the number of values between c1 and c2 that each node possesses.
 
@@ -54,7 +54,7 @@ def cover(tree, k, c1, c2):
     bigSorted = tree.greatSearch(c1,c2)
 
     # Now in "bigSorted" we have all the elements between c1 and c2 and also any other elements that belonged to the
-    # nodes c1, c2 were part of (not only nodes related to c1 and c2 but also all the SotredTableMaps in which all the
+    # nodes c1, c2 were part of (not only nodes related to c1 and c2 but also all the SortedTableMaps in which all the
     # currency codes between c1 and c2 were part of). So, now we can delete the values not included between c1 and c2.
     listOfCurrencyCodesToBeDeleted = []
     for currencyCode in bigSorted:
