@@ -51,9 +51,9 @@ def differentWays(curr, r):
                 a[i][j] = a[i-1][j]
             else:
                 a[i][j] = a[i-1][j] + a[i][j-coins[i-1]]
-    return a[-1][-1], differentCombination(coins, len(coins)-1, r, [], [], a)
+    return a[-1][-1], differentCombinations(coins, len(coins)-1, r, [], [], a)
 
-def differentCombination(coins, row, r, combination, totalCombinations, matrix):
+def differentCombinations(coins, row, r, combination, totalCombinations, matrix):
     """
     :param coins: list of denominations
     :param row: index of row in matrix
@@ -64,16 +64,24 @@ def differentCombination(coins, row, r, combination, totalCombinations, matrix):
     :return: list of total combinations
     """
 
-    if row == 0 and r == 0:
-        if len(totalCombinations) < 1000:
+    # When reaching column with index 0, add the combination found to total combinations.
+    if r == 0:
+        if len(totalCombinations) < 1000:  # Stop when you found 1000 combinations.
             totalCombinations.append(combination)
         return
 
+    # If the matrix cell with row "row" and column "r" contains a value >=1, then there is at least one way to find
+    # the combination on the previous rows. Moreover, we need a copy of "combination" because at each recursion we add
+    # to "totalCombinations" every single coin that contributes to the creation of the combination
     if matrix[row][r] >= 1:
-        differentCombination(coins, row - 1, r, combination[:], totalCombinations, matrix)
+        differentCombinations(coins, row - 1, r, combination[:], totalCombinations, matrix)
 
-    if r >= coins[row - 1] and matrix[row][r - coins[row - 1]] >= 1:
-        combination.append(coins[row - 1])
-        differentCombination(coins, row, r - coins[row - 1], combination, totalCombinations, matrix)
+    # If the difference "r - coins[row - 1]" is a positive number (or at least 0), and if the matrix cell with row "row"
+    # and column "r - coins[row - 1]" contains a value >=1, then there is at least one way to find the combination on
+    # the same row.
+    if r >= coins[row - 1]:
+        if matrix[row][r - coins[row - 1]] >= 1:
+            combination.append(coins[row - 1])
+            differentCombinations(coins, row, r - coins[row - 1], combination, totalCombinations, matrix)
 
     return totalCombinations

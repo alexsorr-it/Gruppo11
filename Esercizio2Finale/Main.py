@@ -17,7 +17,7 @@ if isinstance(tupla, tuple):
     n = tupla[0]
     totalCombinations = tupla[1]
 
-    print("Number of possible combinations:", n)
+    print("\nNumber of possible combinations:", n)
     print("\n\nPossible combinations:")
     if isinstance(totalCombinations, list):
         for combination in totalCombinations:
