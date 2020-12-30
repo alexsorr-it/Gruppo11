@@ -1,7 +1,7 @@
 from Esercizio2Intracorso.Currency import Currency
 
 
-# Algorithm complexity: O(n) since the only method that contributes to determining the computational complexity with a
+# Algorithm complexity: O(n * c) since the only method that contributes to determining the computational complexity with a
 # contribution other than O(1) is 'differentCombinations()', the total computational complexity is relative only to
 # that method. This contains recursive calls to the method itself so to calculate the total complexity the complexity
 # of the non-recursive and recursive instructions are added. As for the former, they are all performed in constant time
