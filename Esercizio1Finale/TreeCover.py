@@ -1,22 +1,22 @@
 from Esercizio3Intracorso.due_otto_tree import SortedTableMap
 
-# Algorithm complexity: O (n^2), reached in the while starting on line 42 and calling a function that executes a for
-# loop. In the worst case, the while and for cycle through the SortedTableMap containing as keys, the keys of the nodes
-# and as values, the number of values between c1 and c2 that each node possesses.
+# Algorithm complexity: O (n^2), reached in the while loop starting from line 88 which calls a function that executes
+# a for loop. In the worst case, the while and for cycles iterate through the entire SortedTableMap (SortCount)
+# containing as keys, the keys of the nodes and as values, the number of elements between c1 and c2 that each node has.
 
-# The Greedy solution in this case is always optimal because it allows me to take the least number of nodes that cover
-# (k, c1, c2). There could not be a situation where you could take advantage of not choosing the great venue.
+# The Greedy solution in this case is always optimal because it allows to take the least number of nodes that cover
+# (k, c1, c2). There could not be a situation where one could take advantage of not choosing the local optimum.
 # Example for absurdity:
-#     Node 1 -> 10 values between c1 and c2
-#     Node 2 -> 2 values between c1 and c2
-#     Node 3 -> 1 value between c1 and c2
-# For k = 1, Greedy finds the solution in Node 3 and returns 1 as the number of nodes -> global optimum.
-# For k = 2, Greedy finds the solution in Node 2 and returns 1 as the number of nodes -> global optimum.
-# For k > 2 and k < 11, Greedy finds the solution in Node 1 and returns 1 as the number of nodes -> global optimum.
-# For k = 11, Greedy finds the solution in Node 1 and Node 3 and returns 2 as the number of nodes -> global optimum.
-# For k = 12, Greedy finds the solution in Node 1 and Node 2 and returns 2 as the number of nodes -> global optimum.
-# For k = 13, Greedy finds the solution in Node 1, Node 2 and Node 3 and returns 3 as the number of nodes -> global optimum.
-# For k > 13, None is returned as there are no elements that reach k between c1 and c2 in the example considered.
+     # Node 1 -> 10 values between c1 and c2
+     # Node 2 -> 2 values between c1 and c2
+     # Node 3 -> 1 value between c1 and c2
+# For k = 1, Greedy finds the solution in Node 3 and returns 1 as the number of nodes -> local and global optimum.
+# For k = 2, Greedy finds the solution in Node 2 and returns 1 as the number of nodes -> local and global optimum.
+# For k > 2 and k < 11, Greedy finds the solution in Node 1 and returns 1 as the number of nodes -> local and global optimum.
+# For k = 11, Greedy finds the solution in Node 1 and Node 3 and returns 2 as the number of nodes -> local and global optimum.
+# For k = 12, Greedy finds the solution in Node 1 and Node 2 and returns 2 as the number of nodes -> local and global optimum.
+# For k = 13, Greedy finds the solution in Node 1, Node 2 and Node 3 and returns 3 as the number of nodes -> local and global optimum.
+# For k > 13, None is returned since there are no elements reaching k between c1 and c2 in the example considered.
 
 def cover(tree, k, c1, c2):
     """
@@ -44,18 +44,20 @@ def cover(tree, k, c1, c2):
     if v1 is None or v2 is None:
         return "c1 or c2 are not valid currencies because one or both of them are not part of the constructed tree"
 
-    # Given the configuration adopted for the (2, 8)-Tree in the first test, it was necessary to create three new
-    # methods: greatSearch(), greatSearch2(), greatSearch3(). These methods perform a search of all the SortedTableMaps
-    # present in each node of the tree and in the "_child" field of each "_Item" present in each SortedTableMap.
-    # Calling the "greatSearch" method, to which the currency codes representing lower limit and upper limit are passed
-    # as parameters, a single SortedTableMap will be returned ("bigSorted" in this code). This will contain as key all the
-    # currency codes present in the tree and included between lower limit and upper limit (c1 and c2), and as value, the
-    # minimum key of the respective SortedTableMap to which each currency code belong.
+    # Given the configuration adopted for the tree (2, 8) in the first test, it was necessary to create in the Currency
+    # class, developed in the first test, three new methods: greatSearch (), greatSearch2 (), greatSearch3 (). These
+    # methods perform a search on all the SortedTableMaps present in each node of the tree and in the "_child" field of
+    # each "_Item" present in each SortedTableMap.
+    # Calling the "greatSearch" method, which is passed as parameters the currency codes representing the lower bound
+    # and the upper bound, will return a single SortedTableMap ("bigSorted" in this code). This will contain as key all
+    # the currency codes present in the tree and included between the lower limit and the upper limit (c1 and c2), and
+    # as a value, the minimum key of the respective SortedTableMap to which each currency code belongs.
     bigSorted = tree.greatSearch(c1,c2)
 
-    # Now in "bigSorted" we have all the elements between c1 and c2 and also any other elements that belonged to the
-    # nodes c1, c2 were part of (not only nodes related to c1 and c2 but also all the SortedTableMaps in which all the
-    # currency codes between c1 and c2 were part of). So, now we can delete the values not included between c1 and c2.
+    # Now in "bigSorted" we have all the elements between c1 and c2 and also all the other elements that belonged to the
+    # nodes c1 and c2 were part of (in reality, we are not referring only to the nodes containing c1 and c2, but also to
+    # all the SotredTableMaps whose currency codes are between c1 and c2). So, now we can delete from the constructed
+    # SortedTableMap, the values not included between c1 and c2.
     listOfCurrencyCodesToBeDeleted = []
     for currencyCode in bigSorted:
         if currencyCode < c1 or currencyCode > c2:
@@ -63,10 +65,10 @@ def cover(tree, k, c1, c2):
     for currencyCodeToDelete in listOfCurrencyCodesToBeDeleted:
         bigSorted.__delitem__(currencyCodeToDelete)
 
-    # Now in listSorted we have all the elements that we are interested in analyzing.
-    # We create a new SortedTableMap (sortedCount) that will contain as keys the minimum keys of the SortedTableMaps of
-    # the tree (only those keys who are in "bigSorted") and as values the number of elements (variable "count" in the
-    # code) that that SortedTableMap has between c1 and c2.
+    # Now in listSorted we have all the elements that we are interested in analyzing. We create a new SortedTableMap
+    # (SortCount) which will contain as keys the minimum keys of the SortedTableMaps of the tree that serve as a
+    # reference for all the elements belonging to the SortedTableMap (only those keys that are in "bigSorted") and as
+    # values the number of elements (variable "count" in your code) that each SortedTableMap has between c1 and c2.
     sortedCount = SortedTableMap()
     alreadyEntered = []
     for currencyCode1 in bigSorted:
@@ -79,9 +81,9 @@ def cover(tree, k, c1, c2):
                     alreadyEntered.append(currencyCode2)
                     sortedCount.__setitem__(bigSorted.__getitem__(currencyCode1), count)
 
-    # Now we have sortedCount which contains the keys and number of values between c1 and c2 (variable "count" in method
-    # "getMax") that fall under the SortedTableMap in question. We make a Greedy choice until we cover k elements. If k
-    # doesn't even reach it with all the elements between c1 and c2, we return None.
+    # We now have SortCount which contains the keys and number of values between c1 and c2 (variable "count" in the
+    # "getMax" method) that fall into the SortedTableMap in question. We make a greedy choice until we cover k elements.
+    # If k doesn't even reach it with all the elements between c1 and c2, we return None.
     num_nodes = 0
     while k > 0:
         num_nodes += 1  # we update the number of nodes needed
