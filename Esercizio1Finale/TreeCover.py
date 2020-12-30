@@ -1,8 +1,9 @@
 from Esercizio3Intracorso.due_otto_tree import SortedTableMap
 
-# Algorithm complexity: O (n^2), reached in the while loop starting from line 88 which calls a function that executes
-# a for loop. In the worst case, the while and for cycles iterate through the entire SortedTableMap (SortCount)
-# containing as keys the keys of the nodes and as values the number of elements between c1 and c2 that each node has.
+# Algorithm complexity: O (k*n), reached in the while loop starting at line 89 which calls a function that executes a
+# for loop. The while loop is executed k times and the for loop, in the worst case, iterates through the entire
+# SortedTableMap (SortCount, whose length, that we assume to be n, is decreased each time we call "getMax" function)
+# containing as keys, the keys of the nodes and as values, the number of elements between c1 and c2 that each node has.
 
 # The Greedy solution in this case is always optimal because it allows to take the least number of nodes that cover
 # (k, c1, c2). There could not be a situation where one could take advantage of not choosing the local optimum.
