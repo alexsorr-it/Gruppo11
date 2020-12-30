@@ -1,6 +1,13 @@
 from Esercizio2Intracorso.Currency import Currency
 
 
+# Algorithm complexity: O(n) since the only method that contributes to determining the computational complexity with a
+# contribution other than O (1) is 'differentCombinations ()', the total computational complexity is relative only to
+# that method. This contains recursive calls to the method itself so to calculate the total complexity the complexity
+# of the non-recursive and recursive instructions are added. As for the former, they are all performed in constant time
+# as they are simple assignments. As for the recursive instructions, these are executed 'n x c' times, where 'n' is the
+# number of possible combinations while 'c' is the number of coins involved.
+
 def differentWays(curr, r):
     """
     :param curr: currency object
@@ -23,8 +30,8 @@ def differentWays(curr, r):
         return "Please, insert only positive integer values as 'r'."
 
     # Initializing matrix 'a'
-    a = [[0] * (r+1) for _ in range(0, curr.numDenominations()+1)]
-    for _ in range(0, curr.numDenominations()+1):
+    a = [[0] * (r + 1) for _ in range(0, curr.numDenominations() + 1)]
+    for _ in range(0, curr.numDenominations() + 1):
         a[_][0] = 1
 
     # Appending denominations to list of coins
@@ -40,18 +47,20 @@ def differentWays(curr, r):
 
     # Constructing matrix containing the number of different ways that value r can be achieved by using denominations
     # of the given currency
-    for i in range(1, curr.numDenominations()+1):
-        for j in range(1, r+1):
+    for i in range(1, curr.numDenominations() + 1):
+        for j in range(1, r + 1):
             if i == 1:
                 if j % coins[0] == 0:
                     a[1][j] = 1
                 else:
                     a[1][j] = 0
-            elif coins[i-1] > j:
-                a[i][j] = a[i-1][j]
+            elif coins[i - 1] > j:
+                a[i][j] = a[i - 1][j]
             else:
-                a[i][j] = a[i-1][j] + a[i][j-coins[i-1]]
-    return a[-1][-1], differentCombinations(coins, len(coins)-1, r, [], [], a)
+                a[i][j] = a[i - 1][j] + a[i][j - coins[i - 1]]
+
+    return a[-1][-1], differentCombinations(coins, len(coins) - 1, r, [], [], a)
+
 
 def differentCombinations(coins, row, r, combination, totalCombinations, matrix):
     """
