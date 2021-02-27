@@ -66,7 +66,7 @@ def cover(tree, k, c1, c2):
     for currencyCodeToDelete in listOfCurrencyCodesToBeDeleted:
         bigSorted.__delitem__(currencyCodeToDelete)
 
-    # Now in listSorted we have all the elements that we are interested in analyzing. We create a new SortedTableMap
+    # Now in bigSorted we have all the elements that we are interested in analyzing. We create a new SortedTableMap
     # (SortCount) which will contain as keys the minimum keys of the SortedTableMaps of the tree that serve as a
     # reference for all the elements belonging to the SortedTableMap (only those keys that are in "bigSorted") and as
     # values the number of elements (variable "count" in your code) that each SortedTableMap has between c1 and c2.

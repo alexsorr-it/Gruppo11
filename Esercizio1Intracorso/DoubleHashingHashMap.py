@@ -62,7 +62,7 @@ class HashMapBase(MapBase):
       self[k] = v                  # reinsert old key-value pair
 
 
-
+# class constructed from probe_hash_map
 class DoubleHashingHashMap(HashMapBase):
     # "””Hash table implemented with linear probing.”””
     _AVAIL = object()  # sentinel marking positions of previous deletions

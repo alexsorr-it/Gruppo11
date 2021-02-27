@@ -12,8 +12,8 @@ curr.AddDenomination(7)
 curr.AddDenomination(4)
 
 #---------ADD DENOMINATION PRINT--------#
-curr.toStringDenomination()
-print("\n\n")
+# curr.toStringDenomination()
+# print("\n\n")
 
 # #---------DELETE DENOMINATION-------#
 # curr.toStringDenomination()
@@ -53,9 +53,9 @@ print("\n\n")
 #     print("Key: ", i, ";    Value: ", curr._Denomination.__getitem__(i))
 #
 # #--------------CHANGES--------------#
-# curr.addChange("DOL", 9.0)
-# curr.addChange("LOD", 3.0)
-# curr.addChange("OLD", 7.0)
+curr.addChange("DOL", -9)
+curr.addChange("LOD", 3.0)
+curr.addChange("OLD", 7.0)
 # curr.toStringChanges()
 #
 # #--------REMOVE CHANGES----------#
@@ -70,22 +70,22 @@ print("\n\n")
 # curr.toStringChanges()
 #
 # #--------CHECK COPY AND DEEPCOPY DENOMINATION----------#
-# curr2 = curr.copy()
-# print("\nCURRENCY INIZIALE:")
-# curr.toString()
-# print("\n\nCOPY (WITH COPY MODIFICATIONS):")
-# curr2.AddDenomination(8)
-# curr2.addChange("LDO", 8.0)
-# curr2.toString()
-# print("\n\nCURRENCY POST COPY:")
-# curr.toString()
-# curr3 = curr.deepcopy()
-# print("\n\nDEEPCOPY (WITH COPY AND DEEPCOPY MODIFICATIONS):")
-# curr3.AddDenomination(9)
-# curr3.addChange("DLO", 9.0)
-# curr3.toString()
-# print("\n\nCURRENCY POST DEEPCOPY:")
-# curr.toString()
+curr2 = curr.copy()
+print("\nCURRENCY INIZIALE:")
+curr.toString()
+print("\n\nCOPY (WITH COPY MODIFICATIONS):")
+curr2.AddDenomination(8)
+curr2.addChange("LDO", 8.0)
+curr2.toString()
+print("\n\nCURRENCY POST COPY:")
+curr.toString()
+curr3 = curr.deepcopy()
+print("\n\nDEEPCOPY (WITH COPY AND DEEPCOPY MODIFICATIONS):")
+curr3.AddDenomination(9)
+curr3.addChange("DLO", 9.0)
+curr3.toString()
+print("\n\nCURRENCY POST DEEPCOPY:")
+curr.toString()
 #
 # #--------CHECK COLOUR NODE----------#
 # generator = curr._Denomination.__iter__()

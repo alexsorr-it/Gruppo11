@@ -20,7 +20,14 @@ class Currency():
     def AddDenomination(self,value):
         """Complexity -> O(log(n)) ; O(1) if tree consists only of the root node"""
         if (isinstance(value,float) or isinstance(value,int)) and value > 0.0:
-            self._Denomination.__setitem2__(value,None)
+            if self._Denomination.is_empty():
+                self._Denomination.__setitem__(value, None)
+                return
+            p = self._Denomination.find_position(value)
+            if p.key() != value:
+                self._Denomination.__setitem__(value, None)
+            else:
+                raise ValueError('Value already present. ' + repr(value))
         else:
             raise ValueError('Value must be numeric and positive. ' + repr(value))
 
@@ -99,6 +106,8 @@ class Currency():
             Average Case = O(1/(1-λ)) ; 0<λ≤0.5
             Worst Case = O(n)
         """
+        if not (isinstance(change, float) or isinstance(change, int)):
+            raise ValueError('Change must be a number. Inserted ' + repr(change) + ' as ' + str(type(change)))
         change = float(change)
         h = self._Changes._hash_function(currencycode)
         found,x = self._Changes._find_slot(h,currencycode,False)

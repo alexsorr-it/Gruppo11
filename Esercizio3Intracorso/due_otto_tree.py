@@ -269,13 +269,13 @@ class abTree():
                     self._Albero.__setitem2__(sm3.find_min()[0], sm3)
                     return
                 self._Albero.parent(p).value().__setitem__(k_mid, sm1.__getitem__(k_mid))
-                if p.key() > self._Albero.parent(p).key():
+                if p.key() > self._Albero.parent(p).key():  # parte destra
                     self._Albero.parent(p).value().__setson__(k_mid, sm2)
                     self.son_recursive(self._Albero.parent(p).value().__getson__(k_mid), mappa)
                     self._Albero.__delitem__(p.key())
                     self._Albero.__setitem2__(sm3.find_min()[0], sm3)
                     p = self._Albero.find_position(sm3.find_min()[0])
-                elif p.key() < self._Albero.parent(p).key():
+                elif p.key() < self._Albero.parent(p).key():   # parte sinistra
                     self._Albero.parent(p).value().__setson__(self._Albero.parent(p).key(), sm3)
                     self.son_recursive(self._Albero.parent(p).value().__getson__(self._Albero.parent(p).key()), mappa)
                     self._Albero.parent(p).value().__setson__(k_mid, mappa.__getson__(k_mid))

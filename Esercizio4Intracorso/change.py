@@ -3,6 +3,9 @@ from StruttureDati.priority_queue.heap_priority_queue import HeapPriorityQueue a
 
 def change(value, curr):
     check_float = isinstance(value, float)
+    check_curr = isinstance(curr, Currency)
+    if not check_curr:
+        raise ValueError('curr must be a Currency object. ' + repr(curr))
     if check_float and value > 0.0:
         v = "{0:.2f}".format(value)
         val = float(v)
