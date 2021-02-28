@@ -83,7 +83,7 @@ class Currency():
 
     def hasDenominations(self):
         """Complexity = O(1)"""
-        return self._Denomination.is_empty()
+        return not(self._Denomination.is_empty())
 
     def numDenominations(self):
         """Complexity = O(1)"""
